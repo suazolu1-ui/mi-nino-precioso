@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Para mi niño precioso 💙</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#01040c;color:#fff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+#app{position:fixed;inset:0}#loading{position:absolute;inset:0;z-index:50;display:grid;place-items:center;background:radial-gradient(circle,#08265a,#01040c 70%);text-align:center;padding:30px}
+.loader{max-width:330px}.ring{width:54px;height:54px;border:3px solid #ffffff25;border-top-color:#69c7ff;border-radius:50%;margin:0 auto 18px;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+#loading b{font-size:19px;color:#dff4ff}#loading p{font-size:12px;color:#9fc1db;line-height:1.5}
+.top{position:absolute;z-index:10;top:15px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;white-space:nowrap}.pill,.hint,.controls button,.toast,.card{background:#020b1dcc;border:1px solid #71c8ff45;backdrop-filter:blur(12px);box-shadow:0 10px 40px #0008}
+.pill{display:inline-block;padding:9px 15px;border-radius:999px;font-size:11px;letter-spacing:.11em;color:#d4edff}.hint{position:absolute;top:58px;left:50%;transform:translateX(-50%);z-index:10;padding:7px 12px;border-radius:999px;font-size:10px;color:#bcd8ed;white-space:nowrap}
+.controls{position:absolute;z-index:10;bottom:15px;left:50%;transform:translateX(-50%);width:95%;display:flex;justify-content:center;gap:7px;flex-wrap:wrap}.controls button{color:#ecf8ff;border-radius:15px;padding:10px 13px;font-size:12px;cursor:pointer}
+.toast{position:absolute;z-index:20;bottom:82px;left:50%;transform:translate(-50%,20px);opacity:0;padding:10px 15px;border-radius:999px;font-size:13px;transition:.25s;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{display:none;position:absolute;z-index:30;inset:0;background:#000b;backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px}.card{width:min(92vw,520px);max-height:82vh;overflow:auto;padding:27px;border-radius:25px}.card h2{margin-top:0;color:#c9eaff}.card p{white-space:pre-line;line-height:1.7;color:#dceaf7;font-size:15px}.close{float:right;width:36px;height:36px;border-radius:50%;border:1px solid #fff3;background:#fff1;color:#fff;font-size:20px}
+@media(max-width:600px){.hint{top:55px}.controls button{padding:9px 11px;font-size:11px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="loading"><div class="loader"><div class="ring"></div><b>Preparando tus carritos 3D…</b><p>Estoy cargando modelos 3D reales y la pista. La primera carga puede tardar unos segundos.</p></div></div>
+<div class="top"><span class="pill">PARA MI NIÑO PRECIOSO · SHOWROOM 3D 💙</span></div>
+<div class="hint">👆 Arrastra para girar · 🤏 pellizca para acercar · 🚗 toca un carrito</div>
+<div class="controls">
+<button id="play">⏸️ Pausar carros</button><button id="orbit">⟳ Cámara 360°</button><button id="zoom">🔍 Acercar</button><button id="letter">💌 Abrir carta</button><button id="full">⛶ Pantalla completa</button>
+</div>
+<div id="toast" class="toast"></div>
+<div id="modal" class="modal"><div class="card"><button id="close" class="close">×</button><h2>Para mi niño precioso 💙</h2><p>Para mi niño precioso 💙
+
+Te quiero muchísimo y quería recordarte lo especial que eres para mí.
+Gracias por existir, por tu forma de ser, por tus locuras, por hacerme sonreír
+y por cada momento bonito que compartimos.
+
+Eres una personita muy especial para mí y solo quería dejarte este pequeño
+detalle para que recuerdes cuánto te quiero. ❤️
+
+Con muchísimo cariño,
+tu niña 💙</p></div></div>
+
+<script type="importmap">
+{"imports":{
+"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+"three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+
+const app=document.getElementById('app'), loading=document.getElementById('loading');
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x010611);
+scene.fog=new THREE.FogExp2(0x010611,.035);
+
+const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.05,200);
+camera.position.set(0,7.5,13);
+
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);
+renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+app.appendChild(renderer.domElement);
+
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;controls.dampingFactor=.055;controls.minDistance=6;controls.maxDistance=25;
+controls.target.set(0,1,0);
+
+scene.add(new THREE.HemisphereLight(0x6abaff,0x02030a,2.2));
+const key=new THREE.DirectionalLight(0x9fd8ff,4);key.position.set(-6,10,7);scene.add(key);
+const blue=new THREE.PointLight(0x1688ff,18,24);blue.position.set(0,3,0);scene.add(blue);
+const roseLight=new THREE.PointLight(0xff164f,8,16);roseLight.position.set(-6,2,-2);scene.add(roseLight);
+
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(42,42),new THREE.MeshStandardMaterial({color:0x020711,metalness:.72,roughness:.22}));
+floor.rotation.x=-Math.PI/2;scene.add(floor);
+
+const grid=new THREE.GridHelper(38,38,0x0a5aa0,0x06234a);grid.position.y=.012;scene.add(grid);
+
+function platform(x,z,s=1){
+ const g=new THREE.CylinderGeometry(1.55*s,1.55*s,.18,64);
+ const m=new THREE.MeshStandardMaterial({color:0x020817,metalness:.85,roughness:.18,emissive:0x032a57,emissiveIntensity:.7});
+ const p=new THREE.Mesh(g,m);p.position.set(x,.1,z);scene.add(p);
+ const ring=new THREE.Mesh(new THREE.TorusGeometry(1.48*s,.035,10,80),new THREE.MeshBasicMaterial({color:0x2196ff}));
+ ring.rotation.x=Math.PI/2;ring.position.set(x,.22,z);scene.add(ring);
+}
+[[-5,-3],[-2,2],[1,-2],[4,2],[-5,3],[4,-3]].forEach(p=>platform(p[0],p[1],.95));
+
+function rose(x,z,scale=1){
+ const g=new THREE.Group();g.position.set(x,.5,z);g.scale.setScalar(scale);
+ const stem=new THREE.Mesh(new THREE.CylinderGeometry(.018,.018,.65,8),new THREE.MeshStandardMaterial({color:0x185a2a}));
+ stem.position.y=.3;g.add(stem);
+ for(let i=0;i<7;i++){const a=i*Math.PI*2/7;const pet=new THREE.Mesh(new THREE.SphereGeometry(.18,16,10),new THREE.MeshStandardMaterial({color:0x8e071c,roughness:.3,metalness:.05}));
+ pet.scale.set(.9,.55,.7);pet.position.set(Math.cos(a)*.12,.68+Math.sin(a)*.04,Math.sin(a)*.12);g.add(pet)}
+ scene.add(g);
+}
+[[-7,-1],[-6,3],[6,-2],[6,3],[-2,-4],[2,4]].forEach(p=>rose(...p,.9));
+
+const heart=new THREE.Group();heart.position.set(0,2.3,0);scene.add(heart);
+const hm=new THREE.MeshStandardMaterial({color:0x138cff,emissive:0x087cff,emissiveIntensity:3,transparent:true,opacity:.9});
+for(const x of [-.28,.28]){const h=new THREE.Mesh(new THREE.SphereGeometry(.36,24,24),hm);h.scale.set(.9,.9,.55);h.position.set(x,.08,0);heart.add(h)}
+const point=new THREE.PointLight(0x1495ff,15,12);heart.add(point);
+
+const loader=new GLTFLoader();
+const modelURL='https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/ToyCar/glTF-Binary/ToyCar.glb';
+let source=null, cars=[], playing=true, orbiting=true;
+
+function makeCar(i){
+ const g=source.clone(true);
+ const box=new THREE.Box3().setFromObject(g), size=box.getSize(new THREE.Vector3());
+ const sc=2.05/Math.max(size.x,size.z);
+ g.scale.setScalar(sc);
+ g.position.set(0,0,0);
+ g.rotation.y=Math.PI;
+ g.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true}});
+ const holder=new THREE.Group();holder.add(g);
+ const positions=[[-5,-3],[-2,2],[1,-2],[4,2],[-5,3],[4,-3],[0,4],[-1,-4]];
+ const p=positions[i%positions.length];
+ holder.position.set(p[0],.34,p[1]);
+ holder.userData={name:['GT-R azul','Racer rojo','Supra naranja','Lambo verde','Rally blanco','Blue GT','Porsche','Red GT'][i%8],base:p,speed:.45+i*.035,phase:i*1.7};
+ scene.add(holder);cars.push(holder);
+}
+
+loader.load(modelURL,gltf=>{
+ source=gltf.scene;
+ for(let i=0;i<8;i++)makeCar(i);
+ loading.style.display='none';
+},undefined,err=>{
+ loading.innerHTML='<div class="loader"><b>No se pudo cargar el modelo 3D.</b><p>Comprueba que tengas internet y vuelve a abrir el regalo. El modelo usado es un Toy Car 3D con licencia CC0.</p></div>';
+ console.error(err);
+});
+
+const clock=new THREE.Clock();
+function animate(){
+ requestAnimationFrame(animate);
+ const t=clock.getElapsedTime();
+ if(playing)cars.forEach((c,i)=>{
+   const [bx,bz]=c.userData.base, s=c.userData.speed, ph=c.userData.phase;
+   c.position.x=bx+Math.sin(t*s+ph)*.7;
+   c.position.z=bz+Math.cos(t*s*.82+ph)*.45;
+   c.rotation.y=Math.sin(t*s*.7+ph)*.35;
+ });
+ if(orbiting && !controls.state) {
+   const r=13,a=t*.085;camera.position.x=Math.sin(a)*r;camera.position.z=Math.cos(a)*r;camera.position.y=6.5+Math.sin(t*.23)*.7;
+   controls.target.lerp(new THREE.Vector3(0,1,0),.04);
+ }
+ controls.update();renderer.render(scene,camera);
+}
+animate();
+
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+
+const toast=t=>{const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>x.classList.remove('show'),1900)};
+renderer.domElement.addEventListener('click',()=>{if(cars.length)toast('🚗 ¡Mira cómo recorren la pista! 💙')});
+document.getElementById('play').onclick=()=>{playing=!playing;document.getElementById('play').textContent=playing?'⏸️ Pausar carros':'▶️ Mover carros'};
+document.getElementById('orbit').onclick=()=>{orbiting=!orbiting;document.getElementById('orbit').textContent=orbiting?'⟳ Cámara 360°':'⏸️ Cámara manual'};
+document.getElementById('zoom').onclick=()=>{camera.position.multiplyScalar(.72);controls.update()};
+document.getElementById('full').onclick=()=>document.documentElement.requestFullscreen?.();
+const modal=document.getElementById('modal');document.getElementById('letter').onclick=()=>modal.style.display='flex';document.getElementById('close').onclick=()=>modal.style.display='none';modal.onclick=e=>{if(e.target===modal)modal.style.display='none'};
+</script>
+</body></html>
